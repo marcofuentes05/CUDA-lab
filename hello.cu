@@ -13,12 +13,15 @@
 
 __global__ void hello()
 {
-   printf("Hello world\n");
+   int threadId = threadIdx.x + blockDim.x*threadIdx.y;
+   if (threadId == 1023) {
+   printf("Hello world\tTHREAD ID: %d\n", threadId);
+   }
 }
 
 int main()
 {
-  hello<<<1,10>>>();
+  hello<<<1,2048>>>();
   cudaThreadSynchronize();
   return 0;
 }
